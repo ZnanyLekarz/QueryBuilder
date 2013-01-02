@@ -266,7 +266,7 @@ class Database_Query
 
 	public function finder($model=null, $partition = GENERAL_PARTITION)
 	{
-		\QB::instance()->connection(\XORMDBHRegistry::getInstance()->getPartitionHandler(GENERAL_PARTITION));
+		\QB::instance()->connection(\XORMDBHRegistry::getInstance()->getPartitionHandler($partition));
 
 		return \XORMFinder::create($model)
 			->partition($partition)
