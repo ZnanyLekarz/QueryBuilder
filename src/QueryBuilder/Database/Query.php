@@ -264,8 +264,14 @@ class Database_Query
 	}
 
 
-	public function finder($model=null, $partition = GENERAL_PARTITION)
+	public function finder($model=null, $partition = null)
 	{
+		$ormManagerClass = '\ORM'.$model.'Manager';
+		if (null === $partition and class_exists($ormManagerClass))
+		{
+			$partition = $ormManagerClass::PARTITION_ID;
+		}
+
 		\QB::instance()->connection(\XORMDBHRegistry::getInstance()->getPartitionHandler($partition));
 
 		return \XORMFinder::create($model)
