@@ -267,9 +267,13 @@ class Database_Query
 	public function finder($model=null, $partition = null)
 	{
 		$ormManagerClass = '\ORM'.$model.'Manager';
-		if (null === $partition and class_exists($ormManagerClass))
+		if (null === $partition and class_exists($ormManagerClass) and is_a(new $ormManagerClass, 'AppBaseManager'))
 		{
 			$partition = $ormManagerClass::PARTITION_ID;
+		}
+		else
+		{
+			$partition = GENERAL_PARTITION;
 		}
 
 		\QB::instance()->connection(\XORMDBHRegistry::getInstance()->getPartitionHandler($partition));
