@@ -271,7 +271,7 @@ class Database_Query
 		{
 			$partition = $ormManagerClass::PARTITION_ID;
 		}
-		else
+		elseif (null === $partition)
 		{
 			$partition = GENERAL_PARTITION;
 		}
