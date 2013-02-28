@@ -1,5 +1,5 @@
 {
-	"name": "QueryBuilder/QueryBuilder",
+	"name": "querybuilder/querybuilder",
 	"require": {
 		"php": ">=5.3.0"
 	},
