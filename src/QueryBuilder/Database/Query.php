@@ -9,6 +9,7 @@ namespace QueryBuilder;
  * @category   Query
  * @author     Kohana Team
  * @copyright  (c) 2008-2009 Kohana Team
+ * @deprecated
  * @license    http://kohanaphp.com/license
  */
 class Database_Query
@@ -264,23 +265,22 @@ class Database_Query
 	}
 
 
-	public function finder($model=null, $partition = null)
+	public function finder($model=null, $connection = null)
 	{
 		$ormManagerClass = '\ORM'.$model.'Manager';
-		if (null === $partition and class_exists($ormManagerClass) and is_a(new $ormManagerClass, 'AppBaseManager'))
+		if (null === $connection and class_exists($ormManagerClass) and is_a(new $ormManagerClass, 'AppBaseManager'))
 		{
-			$partition = $ormManagerClass::PARTITION_ID;
+			$connection = $ormManagerClass::CONNECTION_NAME;
 		}
-		elseif (null === $partition)
+		elseif (null === $connection)
 		{
-			$partition = GENERAL_PARTITION;
+			$connection = "general";
 		}
 
-		\QB::instance()->connection(\XORMDBHRegistry::getInstance()->getPartitionHandler($partition));
+		$db = \Propel::getConnection($connection);
+		\QB::instance()->connection($db);
 
-		return \XORMFinder::create($model)
-			->partition($partition)
-			->query($this->__toString());
+		return \XORMFinder::create($model, $db)->query($this->__toString());
 	}
 
 } // End Database_Query
