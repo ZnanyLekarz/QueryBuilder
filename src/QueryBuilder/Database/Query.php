@@ -2,6 +2,8 @@
 
 namespace QueryBuilder;
 
+use Propel\Runtime\Propel;
+
 /**
  * Database query wrapper.  See [Parameterized Statements](database/query/parameterized) for usage and examples.
  *
@@ -277,7 +279,7 @@ class Database_Query
 			$connection = "general";
 		}
 
-		$db = \Propel::getConnection($connection);
+		$db = Propel::getConnection($connection);
 		\QB::instance()->connection($db);
 
 		return \XORMFinder::create($model, $db)->query($this->__toString());
